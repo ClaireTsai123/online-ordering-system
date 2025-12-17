@@ -72,7 +72,7 @@ All requests include JWT authorization headers via a centralized Axios instance.
 ---
 
 ## Project Structure
-
+```
 src/
 ├── components/
 │ └── Navbar.tsx
@@ -91,7 +91,7 @@ src/
 ├── App.tsx
 ├── main.tsx
 └── index.css
-
+```
 ---
 
 ## Authentication Flow
