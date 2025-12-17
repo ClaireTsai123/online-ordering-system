@@ -28,7 +28,7 @@ Key features:
 ---
 
 ## Frontend
-See: [`frontend/README.md`](frontend/README.md)
+See: [`online-ordering-frontend/README.md`](frontend/README.md)
 
 Key features:
 - React + TypeScript + Vite
