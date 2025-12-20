@@ -36,7 +36,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuItemDTO> getMenuItemsByCategory(String category) {
-        return menuItemRepository.findByCategory(category).stream()
+        return menuItemRepository.findByCategory(category.toLowerCase()).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }

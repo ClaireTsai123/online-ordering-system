@@ -1,16 +1,13 @@
 import {useEffect, useState} from "react";
 import {http} from "../http";
-import {Link} from "react-router-dom";
 import "../../index.css";
-import {isVendorOrAdmin, logout} from "../auth.ts";
-import {getRole} from "../auth.ts";
 import Navbar from "../components/Navbar";
 
 type MenuItem = {
     id: number;
     name: string;
     price: number;
-    imageUrl?: string;
+    imageUrl: string;
 };
 
 
@@ -18,12 +15,20 @@ export default function MenuPage() {
     const [menus, setMenus] = useState<MenuItem[]>([]);
     const [addedId, setAddedId] = useState<number | null>(null);
     const [quantities, setQuantities] = useState<Record<number, number>>({})
+    const [category, setCategory] = useState<String>("ALL");
 
+    async function loadMenus(selectedCategory: String) {
+        if (selectedCategory === "ALL") {
+            const res = await  http.get("/api/menu/items");
+            setMenus(res.data.data);
+        } else {
+            const  res = await http.get(`api/menu/items/category?category=${selectedCategory.toLowerCase()}`);
+            setMenus(res.data.data);
+        }
+    }
     useEffect(() => {
-        http.get("/api/menu/items").then((res) => {
-            setMenus(res.data.data); // matches your ApiResponse
-        });
-    }, []);
+       loadMenus(category)
+    }, [category]);
 
     async function addToCart(menuItemId: number) {
         const currentQty = quantities[menuItemId] ?? 0;
@@ -51,8 +56,27 @@ export default function MenuPage() {
             <Navbar />
 
             <h1 className="text-2xl mb-4">Menu</h1>
+            <div className="flex gap-3 mb-6">
+                {["ALL", "DRINK", "FOOD", "DESSERT"].map((c) => (
+                    <button
+                        key={c}
+                        onClick={() => setCategory(c)}
+                        className={`px-4 py-2 rounded transition
+              ${category === c
+                            ? "bg-indigo-600 text-white"
+                            : "bg-gray-200 hover:bg-gray-300"}
+            `}
+                    >
+                        {c}
+                    </button>
+                ))}
+            </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {menus.length === 0 && (
+                    <p className="text-gray-500">No items found for this category.</p>
+                )}
                 {menus.map((m) => (
                     <div key={m.id} className="border rounded-lg p-3 shadow-sm hover:shadow-md">
                         <img
