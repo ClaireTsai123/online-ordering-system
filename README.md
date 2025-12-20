@@ -50,5 +50,24 @@ Key features:
 
 ## How to Run
 
-Backend and frontend are started separately.  
-Refer to the respective README files for detailed instructions.
+### Option 1: Docker (Recommended)
+
+**🐳 [Docker Setup Guide →](DOCKER.md)**
+
+Quick start:
+```bash
+docker-compose up -d
+```
+
+All services will be automatically started with proper dependencies and networking. See [`DOCKER.md`](DOCKER.md) for detailed instructions.
+
+### Option 2: Local Development
+
+**📖 [Complete Startup Guide →](START_SERVICES.md)**
+
+For detailed step-by-step instructions to start all services locally (infrastructure, backend, and frontend), see [`START_SERVICES.md`](START_SERVICES.md).
+
+Quick overview:
+- Backend and frontend are started separately
+- Services must be started in a specific order (Eureka → Gateway → Services)
+- Requires MySQL, Redis, and RabbitMQ to be running
